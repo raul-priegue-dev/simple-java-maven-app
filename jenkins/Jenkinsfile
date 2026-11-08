@@ -3,6 +3,7 @@ pipeline {
     parameters {
         booleanParam(defaultValue: true, description: "Enable Service ?", name: "myBoolean")
         string(defaultValue: "TEST", description: "Environment ?", name: "deployEnv")
+        choice(choices: ["TEST", "DEV", QA", "PROD"], description: "Environment 2 ?", name: "deployEnv2")
     }
     stages {
         stage('Build') {
@@ -29,6 +30,7 @@ pipeline {
             steps {
                 echo 'Job Complete Guys!'
                 echo "myBoolean value = ${params.myBoolean} environment = ${deployEnv}"
+                echo "environment 2 = ${deployEnv2}"
             }
         }
     }
