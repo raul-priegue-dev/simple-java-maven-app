@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    environment {
+        def myString = "Hello World"
+        def myNumber = 10
+        def myBool = true
+    }
     parameters {
         booleanParam(defaultValue: true, description: "Enable Service ?", name: "myBoolean")
         string(defaultValue: "TEST", description: "Environment ?", name: "deployEnv")
@@ -29,8 +34,12 @@ pipeline {
         stage('Complete') {
             steps {
                 echo 'Job Complete Guys!'
-                echo "myBoolean value = ${params.myBoolean} environment = ${deployEnv}"
-                echo "environment 2 = ${deployEnv2}"
+                echo "myBoolean value = ${params.myBoolean} environment = ${deployEnv}\n"
+                echo "environment 2 = ${deployEnv2}\n"
+                echo "var myString = ${myString}\n"
+                echo "var myNumber = ${myNumber}\n"
+                echo "var myBool = ${myBool}\n"
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
             }
         }
     }
