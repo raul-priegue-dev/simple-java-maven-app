@@ -13,7 +13,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh """mvn -B -DskipTests 
+                clean package"""        // Multiline shell command
                 sleep(30)  // Sleep for 30 seconds to simulate a long build process
             }
         }
@@ -60,6 +61,8 @@ pipeline {
 }
 
 def myFunction(String param, int number) {
+    def myLocalVar = "Hello from myFunction"
+    echo "myLocalVar = ${myLocalVar}\n"
     echo "This is a function defined outside the pipeline block"
     echo "param = ${param}, number = ${number}"
 }
