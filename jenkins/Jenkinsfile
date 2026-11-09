@@ -18,6 +18,11 @@ pipeline {
                 sleep(30)  // Sleep for 30 seconds to simulate a long build process
             }
         }
+        stage('Test1') {
+            steps {
+                build 'TestPipeline'
+            }
+        }
         stage('Test') {
             steps {
                 //     build 'Test Pipeline'
