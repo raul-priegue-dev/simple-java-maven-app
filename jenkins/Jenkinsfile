@@ -13,8 +13,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh """mvn -B -DskipTests 
-                clean package"""        // Multiline shell command
+                sh """mvn -B -DskipTests clean 
+                      mvn -B -DskipTests package """        // Multiline shell command
                 sleep(30)  // Sleep for 30 seconds to simulate a long build process
             }
         }
