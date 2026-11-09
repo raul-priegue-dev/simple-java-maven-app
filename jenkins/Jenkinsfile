@@ -1,11 +1,11 @@
 pipeline {
     agent any
-    environment {
+    environment {   // Definicion de vars
         def myString = "Hello World"
         def myNumber = 10
         def myBool = true
     }
-    parameters {
+    parameters {  // Definicion de parámetros
         booleanParam(defaultValue: true, description: "Enable Service ?", name: "myBoolean")
         string(defaultValue: "TEST", description: "Environment ?", name: "deployEnv")
         choice(choices: ["TEST", "DEV", "QA", "PROD"], description: "Environment 2 ?", name: "deployEnv2")
@@ -14,6 +14,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
+                sleep(30)  // Sleep for 30 seconds to simulate a long build process
             }
         }
         stage('Test') {
@@ -39,8 +40,26 @@ pipeline {
                 echo "var myString = ${myString}\n"
                 echo "var myNumber = ${myNumber}\n"
                 echo "var myBool = ${myBool}\n"
-                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"        // Vars de entorno predefinidas
+                myFunction("Hello from function", 42)  // Llamada a la función definida fuera del bloque pipeline
+                script {   // Bloque de script para definir variables y ejecutar código Groovy
+                    if (params.myBoolean == true) {
+                        echo "myBoolean is true"
+                        currentBuild.description = "This is a test build for ${deployEnv} environment"
+                        currentBuild.displayName = "#${env.BUILD_ID} - ${deployEnv}"
+                        currentBuild.result = "SUCCESS"
+                    } else {
+                        echo "myBoolean is false"
+                    }
+                    def myVar = "Hello from script block"
+                    echo "myVar = ${myVar}\n"
+                }
             }
         }
     }
+}
+
+def myFunction(String param, int number) {
+    echo "This is a function defined outside the pipeline block"
+    echo "param = ${param}, number = ${number}"
 }
