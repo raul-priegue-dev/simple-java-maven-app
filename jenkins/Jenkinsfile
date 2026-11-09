@@ -19,7 +19,9 @@ pipeline {
             }
         }
         stage('Test') {
-            build 'Test Pipeline'
+            steps {
+                build 'Test Pipeline'
+            }
         }
         stage('Deliver') {
             steps {
